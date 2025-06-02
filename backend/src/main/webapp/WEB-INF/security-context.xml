@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- HTTP Security Configuration with JWT -->
+    <security:http auto-config="false" use-expressions="true" entry-point-ref="jwtAuthenticationEntryPoint">
+        <!-- Enable CORS -->
+        <security:cors configuration-source-ref="corsConfigurationSource"/>
+
+        <!-- Permit authentication endpoints -->
+        <security:intercept-url pattern="/api/auth/**" access="permitAll"/>
+        <security:intercept-url pattern="/api/v1/auth/**" access="permitAll"/>
+        <security:intercept-url pattern="/api/hello" access="permitAll"/>
+        <security:intercept-url pattern="/" access="permitAll"/>
+        <security:intercept-url pattern="/welcome" access="permitAll"/>
+        <security:intercept-url pattern="/resources/**" access="permitAll"/>
+
+        <!-- Admin endpoints require ADMIN role -->
+        <security:intercept-url pattern="/api/admin/**" access="hasRole('ADMIN')"/>
+        <security:intercept-url pattern="/api/v1/admin/**" access="hasRole('ADMIN')"/>
+
+        <!-- Bank Agent endpoints require AGENT role -->
+        <security:intercept-url pattern="/api/agent/**" access="hasRole('AGENT')"/>
+        <security:intercept-url pattern="/api/v1/agent/**" access="hasRole('AGENT')"/>
+
+        <!-- Client endpoints require CLIENT role -->
+        <security:intercept-url pattern="/api/client/**" access="hasRole('CLIENT')"/>
+        <security:intercept-url pattern="/api/v1/client/**" access="hasRole('CLIENT')"/>
+
+        <!-- All other API endpoints require authentication -->
+        <security:intercept-url pattern="/api/**" access="isAuthenticated()"/>
+
+        <!-- Disable CSRF for REST APIs -->
+        <security:csrf disabled="true"/>
+
+        <!-- Add JWT filter -->
+        <security:custom-filter ref="jwtAuthenticationFilter" before="BASIC_AUTH_FILTER"/>
+
+        <!-- Also support HTTP Basic for fallback -->
+        <security:http-basic/>
+    </security:http>
+
+    <!-- JWT Authentication Entry Point -->
+    <bean id="jwtAuthenticationEntryPoint" class="com.ebanking.security.JwtAuthenticationEntryPoint"/>
+
+    <!-- JWT Authentication Filter -->
+    <bean id="jwtAuthenticationFilter" class="com.ebanking.security.JwtAuthenticationFilter"/>
+
+</beans>
