@@ -1,0 +1,110 @@
+/* Client Dashboard Styles */
+
+/* Enhanced card hover effects */
+.dashboard-card {
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Quick action buttons */
+.quick-action-btn {
+  transition: all 0.2s ease;
+}
+
+.quick-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Sensitive data toggle buttons */
+.toggle-visibility-btn {
+  transition: all 0.2s ease;
+}
+
+.toggle-visibility-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Welcome section gradient animation */
+.welcome-gradient {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Card icons */
+.card-icon {
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover .card-icon {
+  transform: scale(1.1);
+}
+
+/* Balance display */
+.balance-display {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+}
+
+/* Masked data styling */
+.masked-data {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  color: #6b7280;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .dashboard-card {
+    margin-bottom: 1rem;
+  }
+
+  .quick-action-btn {
+    padding: 0.75rem;
+  }
+}
+
+/* Loading animation enhancement */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Success/Error message animations */
+.message-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced focus states */
+.focus-ring:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #3b82f6;
+  ring-offset: 2px;
+}

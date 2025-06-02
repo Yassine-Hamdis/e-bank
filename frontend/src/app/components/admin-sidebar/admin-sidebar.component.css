@@ -1,0 +1,45 @@
+/* Admin Sidebar Styles */
+.admin-sidebar {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Active link styles */
+.router-link-active {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-left-color: #3b82f6;
+}
+
+/* Hover effects */
+.nav-link:hover {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+/* Logout button specific styles */
+.logout-btn:hover {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+/* Smooth transitions */
+.nav-link,
+.logout-btn {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Icon alignment */
+.nav-icon {
+  flex-shrink: 0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+}

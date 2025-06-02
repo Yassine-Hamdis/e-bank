@@ -1,0 +1,50 @@
+/* Client Sidebar Styles */
+.sidebar-active {
+  @apply bg-blue-50 text-blue-700 border-blue-500;
+}
+
+/* Hover effects for navigation items */
+nav a:hover,
+nav button:hover {
+  transform: translateX(2px);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Active state styling */
+nav a.router-link-active {
+  @apply bg-blue-50 text-blue-700 border-blue-500;
+}
+
+/* Smooth transitions */
+nav a,
+nav button {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Logo section styling */
+.logo-section {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+/* Custom scrollbar for sidebar */
+nav {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+nav::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+nav::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+nav::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

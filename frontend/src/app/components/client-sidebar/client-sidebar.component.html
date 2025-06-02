@@ -1,0 +1,123 @@
+<!-- Client Sidebar -->
+<div class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg border-r border-gray-200">
+  <!-- Logo Section -->
+  <div class="flex items-center justify-center h-16 px-4 bg-blue-600 text-white">
+    <div class="flex items-center">
+      <div class="text-2xl font-bold">💳</div>
+      <div class="ml-2">
+        <h1 class="text-lg font-bold">eBanking</h1>
+        <p class="text-xs text-blue-200">Client Portal</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="mt-8 px-4">
+    <ul class="space-y-2">
+      <!-- Dashboard -->
+      <li>
+        <a 
+          routerLink="/client" 
+          routerLinkActive="bg-blue-50 text-blue-700 border-blue-500"
+          [routerLinkActiveOptions]="{exact: true}"
+          class="flex items-center px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors border-l-4 border-transparent"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path>
+          </svg>
+          Dashboard
+        </a>
+      </li>
+
+      <!-- Transfer Money -->
+      <li>
+        <a 
+          routerLink="/client/transfer" 
+          routerLinkActive="bg-blue-50 text-blue-700 border-blue-500"
+          class="flex items-center px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors border-l-4 border-transparent"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+          </svg>
+          Transfer Money
+        </a>
+      </li>
+
+      <!-- Mobile Recharge -->
+      <li>
+        <a 
+          routerLink="/client/mobile-recharge" 
+          routerLinkActive="bg-blue-50 text-blue-700 border-blue-500"
+          class="flex items-center px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors border-l-4 border-transparent"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+          </svg>
+          Mobile Recharge
+        </a>
+      </li>
+
+      <!-- Crypto Wallet -->
+      <li>
+        <a 
+          routerLink="/client/crypto-wallet" 
+          routerLinkActive="bg-blue-50 text-blue-700 border-blue-500"
+          class="flex items-center px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors border-l-4 border-transparent"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+          </svg>
+          Crypto Wallet
+        </a>
+      </li>
+
+      <!-- Notifications -->
+      <li>
+        <a 
+          routerLink="/client/notifications" 
+          routerLinkActive="bg-blue-50 text-blue-700 border-blue-500"
+          class="flex items-center px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors border-l-4 border-transparent"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h6v-2H4v2zM4 15h8v-2H4v2zM4 11h8V9H4v2z"></path>
+          </svg>
+          Notifications
+        </a>
+      </li>
+    </ul>
+
+    <!-- Divider -->
+    <div class="my-6 border-t border-gray-200"></div>
+
+    <!-- Account Actions -->
+    <ul class="space-y-2">
+      <!-- Change Password -->
+      <li>
+        <a 
+          routerLink="/change-password" 
+          routerLinkActive="bg-blue-50 text-blue-700 border-blue-500"
+          class="flex items-center px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors border-l-4 border-transparent"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+          </svg>
+          Change Password
+        </a>
+      </li>
+
+      <!-- Logout -->
+      <li>
+        <button 
+          (click)="logout()"
+          class="w-full flex items-center px-4 py-3 text-sm font-medium text-red-700 rounded-lg hover:bg-red-50 hover:text-red-900 transition-colors border-l-4 border-transparent"
+        >
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+          Logout
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>

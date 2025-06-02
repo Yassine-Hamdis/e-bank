@@ -1,0 +1,228 @@
+<!-- Client Layout with Sidebar -->
+<div class="min-h-screen bg-gray-50 flex">
+  <!-- Sidebar -->
+  <app-client-sidebar></app-client-sidebar>
+
+  <!-- Main Content -->
+  <div class="flex-1 ml-64">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+      <div class="px-6 py-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900">Transfer Funds</h2>
+            <p class="text-gray-600">Send money to another account securely.</p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="text-sm text-gray-700" *ngIf="accountDetails">
+              Account: {{ accountDetails.accountId }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="flex justify-center items-center h-64">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+
+    <!-- Transfer Form -->
+    <div *ngIf="!isLoading" class="space-y-8">
+      <!-- Page Title -->
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-gray-900 mb-2">Transfer Funds</h2>
+        <p class="text-gray-600">Send money to another account securely</p>
+      </div>
+
+      <!-- Account Info Card -->
+      <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200" *ngIf="accountDetails">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">From Account</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="text-sm text-gray-500">Account ID</label>
+            <p class="text-sm font-medium text-gray-900">{{ accountDetails.accountId }}</p>
+          </div>
+          <div>
+            <label class="text-sm text-gray-500">Available Balance</label>
+            <p class="text-lg font-bold text-green-600">{{ formatCurrency(accountDetails.balance) }}</p>
+          </div>
+          <div>
+            <label class="text-sm text-gray-500">Account Type</label>
+            <p class="text-sm font-medium text-gray-900">{{ accountDetails.accountType }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transfer Form Card -->
+      <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Transfer Details</h3>
+
+        <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" class="space-y-6">
+          <!-- Destination Account -->
+          <div>
+            <label for="destinationAccountId" class="block text-sm font-medium text-gray-700 mb-2">
+              Destination Account ID *
+            </label>
+            <input
+              type="text"
+              id="destinationAccountId"
+              formControlName="destinationAccountId"
+              [class]="isFieldInvalid('destinationAccountId') ?
+                'w-full px-3 py-2 border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500' :
+                'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'"
+              placeholder="Enter destination account ID (alphanumeric only)"
+            />
+            <div *ngIf="isFieldInvalid('destinationAccountId')" class="mt-1 text-sm text-red-600">
+              {{ getFieldError('destinationAccountId') }}
+            </div>
+          </div>
+
+          <!-- Amount and Fee Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Amount -->
+            <div>
+              <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">
+                Transfer Amount *
+              </label>
+              <div class="relative">
+                <span class="absolute left-3 top-2 text-gray-500">$</span>
+                <input
+                  type="number"
+                  id="amount"
+                  formControlName="amount"
+                  step="0.01"
+                  min="1"
+                  max="100000"
+                  [class]="isFieldInvalid('amount') ?
+                    'w-full pl-8 pr-3 py-2 border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500' :
+                    'w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'"
+                  placeholder="0.00"
+                />
+              </div>
+              <div *ngIf="isFieldInvalid('amount')" class="mt-1 text-sm text-red-600">
+                {{ getFieldError('amount') }}
+              </div>
+            </div>
+
+            <!-- Transfer Fee -->
+            <div>
+              <label for="transferFee" class="block text-sm font-medium text-gray-700 mb-2">
+                Transfer Fee ({{ feePercentage }}% of amount)
+              </label>
+              <div class="relative">
+                <span class="absolute left-3 top-2 text-gray-500">$</span>
+                <input
+                  type="number"
+                  id="transferFee"
+                  formControlName="transferFee"
+                  step="0.01"
+                  min="0"
+                  [disabled]="true"
+                  class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500 cursor-not-allowed"
+                />
+              </div>
+              <p class="mt-1 text-xs text-gray-500">
+                Transfer fee is automatically calculated as {{ feePercentage }}% of the transfer amount
+              </p>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+              Transfer Description *
+            </label>
+            <textarea
+              id="description"
+              formControlName="description"
+              rows="3"
+              [class]="isFieldInvalid('description') ?
+                'w-full px-3 py-2 border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500' :
+                'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'"
+              placeholder="Enter transfer description or purpose (no special characters like <, >, {, }, [, ], \, /)"
+            ></textarea>
+            <div *ngIf="isFieldInvalid('description')" class="mt-1 text-sm text-red-600">
+              {{ getFieldError('description') }}
+            </div>
+          </div>
+
+          <!-- Transfer Summary -->
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200" *ngIf="transferForm.value.amount">
+            <h4 class="text-sm font-medium text-gray-900 mb-3">Transfer Summary</h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-600">Transfer Amount:</span>
+                <span class="font-medium">{{ formatCurrency(transferForm.value.amount || 0) }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Transfer Fee:</span>
+                <span class="font-medium">{{ formatCurrency(transferForm.value.transferFee || 0) }}</span>
+              </div>
+              <div class="border-t border-gray-300 pt-2 flex justify-between">
+                <span class="font-medium text-gray-900">Total Deduction:</span>
+                <span class="font-bold text-red-600">{{ formatCurrency((transferForm.value.amount || 0) + (transferForm.value.transferFee || 0)) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success Message -->
+          <div *ngIf="successMessage" class="bg-green-50 border border-green-200 rounded-md p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm text-green-800">{{ successMessage }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="errorMessage" class="bg-red-50 border border-red-200 rounded-md p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm text-red-800">{{ errorMessage }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="flex justify-end space-x-4">
+            <button
+              type="button"
+              (click)="goBack()"
+              class="px-6 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              [disabled]="transferForm.invalid || isSubmitting"
+              class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <span *ngIf="!isSubmitting">Transfer Funds</span>
+              <span *ngIf="isSubmitting" class="flex items-center">
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </main>
+  </div>
+</div>

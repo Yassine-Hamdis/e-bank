@@ -1,0 +1,103 @@
+<!-- Notification Bell -->
+<div class="relative">
+  <!-- Bell Button -->
+  <button
+    (click)="toggleDropdown()"
+    class="relative p-2 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-full transition-colors"
+    [class.text-blue-600]="unreadCount > 0"
+  >
+    <!-- Bell Icon -->
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+      </path>
+    </svg>
+
+    <!-- Unread Count Badge -->
+    <span
+      *ngIf="unreadCount > 0"
+      class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full min-w-[20px] h-5"
+    >
+      {{ unreadCount > 99 ? '99+' : unreadCount }}
+    </span>
+  </button>
+
+  <!-- Dropdown Menu -->
+  <div
+    *ngIf="isDropdownOpen"
+    class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+    (clickOutside)="closeDropdown()"
+  >
+    <!-- Header -->
+    <div class="px-4 py-3 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-medium text-gray-900">Notifications</h3>
+        <span class="text-xs text-gray-500" *ngIf="unreadCount > 0">
+          {{ unreadCount }} unread
+        </span>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="px-4 py-6 text-center">
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
+      <p class="text-sm text-gray-500 mt-2">Loading notifications...</p>
+    </div>
+
+    <!-- Notifications List -->
+    <div *ngIf="!isLoading" class="max-h-96 overflow-y-auto">
+      <!-- No Notifications -->
+      <div *ngIf="notifications.length === 0" class="px-4 py-6 text-center">
+        <div class="text-4xl mb-2">🔔</div>
+        <p class="text-sm text-gray-500">No notifications yet</p>
+      </div>
+
+      <!-- Notification Items -->
+      <div *ngFor="let notification of getRecentNotifications()"
+           class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 cursor-pointer transition-colors"
+           (click)="markAsRead(notification)"
+           [class.bg-blue-50]="!notification.isRead">
+
+        <div class="flex items-start space-x-3">
+          <!-- Type Icon -->
+          <div class="flex-shrink-0 mt-1">
+            <span class="text-lg">{{ getTypeIcon(notification.type) }}</span>
+          </div>
+
+          <!-- Content -->
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-medium text-gray-900 truncate"
+                 [class.font-bold]="!notification.isRead">
+                {{ notification.title }}
+              </p>
+              <span class="text-xs" [class]="getPriorityColor(notification.priority)">
+                {{ formatDate(notification.createdDate) }}
+              </span>
+            </div>
+            <p class="text-sm text-gray-600 mt-1 line-clamp-2">
+              {{ notification.message }}
+            </p>
+
+            <!-- Unread Indicator -->
+            <div *ngIf="!notification.isRead" class="flex items-center mt-2">
+              <div class="w-2 h-2 bg-blue-600 rounded-full mr-2"></div>
+              <span class="text-xs text-blue-600 font-medium">New</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div *ngIf="!isLoading && notifications.length > 0"
+         class="px-4 py-3 border-t border-gray-200 bg-gray-50">
+      <button
+        (click)="viewAllNotifications()"
+        class="w-full text-center text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+      >
+        View all notifications
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,271 @@
+<!-- Agent Layout with Sidebar -->
+<div class="min-h-screen bg-gray-50 flex">
+  <!-- Sidebar -->
+  <app-agent-sidebar></app-agent-sidebar>
+
+  <!-- Main Content -->
+  <div class="flex-1 ml-64">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+      <div class="px-6 py-4">
+        <h2 class="text-2xl font-bold text-gray-900">Agent Dashboard</h2>
+        <p class="text-gray-600">Manage your clients and banking operations.</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+      <!-- Loading State -->
+      <div *ngIf="isLoadingClients" class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+        <span class="ml-3 text-gray-600">Loading client data...</span>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="clientsError" class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800">Error Loading Data</h3>
+            <div class="mt-2 text-sm text-red-700">
+              <p>{{ clientsError }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Client Statistics Cards -->
+      <div *ngIf="!isLoadingClients && !clientsError" class="mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Client Statistics</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Total Clients -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-sm font-medium text-gray-500">Total Clients</h4>
+            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 515.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="text-2xl font-bold text-gray-900">{{ totalClients }}</div>
+          <p class="text-xs text-gray-500 mt-1">Managed clients</p>
+        </div>
+
+        <!-- Active Clients -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-sm font-medium text-gray-500">Active Clients</h4>
+            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+              <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="text-2xl font-bold text-gray-900">{{ activeClients }}</div>
+          <p class="text-xs text-gray-500 mt-1">Currently active</p>
+        </div>
+
+        <!-- Inactive Clients -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-sm font-medium text-gray-500">Inactive Clients</h4>
+            <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+              <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="text-2xl font-bold text-gray-900">{{ inactiveClients }}</div>
+          <p class="text-xs text-gray-500 mt-1">Inactive accounts</p>
+        </div>
+
+        <!-- Clients with Accounts -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-sm font-medium text-gray-500">With Accounts</h4>
+            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+              <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="text-2xl font-bold text-gray-900">{{ clientsWithAccounts }}</div>
+          <p class="text-xs text-gray-500 mt-1">Have bank accounts</p>
+        </div>
+        </div>
+      </div>
+
+      <!-- Deposit Statistics Cards -->
+      <div *ngIf="!isLoadingDepositStats && !depositStatsError && depositStatistics" class="mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Deposit Statistics</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Total Deposits -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-medium text-gray-500">Total Deposits</h4>
+              <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="text-2xl font-bold text-gray-900">{{ depositStatistics.totalDeposits }}</div>
+            <p class="text-xs text-gray-500 mt-1">{{ formatAmount(depositStatistics.totalDepositAmount) }}</p>
+          </div>
+
+          <!-- Today's Deposits -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-medium text-gray-500">Today</h4>
+              <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="text-2xl font-bold text-gray-900">{{ depositStatistics.depositsToday }}</div>
+            <p class="text-xs text-gray-500 mt-1">{{ formatAmount(depositStatistics.depositAmountToday) }}</p>
+          </div>
+
+          <!-- This Week's Deposits -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-medium text-gray-500">This Week</h4>
+              <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="text-2xl font-bold text-gray-900">{{ depositStatistics.depositsThisWeek }}</div>
+            <p class="text-xs text-gray-500 mt-1">{{ formatAmount(depositStatistics.depositAmountThisWeek) }}</p>
+          </div>
+
+          <!-- This Month's Deposits -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-medium text-gray-500">This Month</h4>
+              <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="text-2xl font-bold text-gray-900">{{ depositStatistics.depositsThisMonth }}</div>
+            <p class="text-xs text-gray-500 mt-1">{{ formatAmount(depositStatistics.depositAmountThisMonth) }}</p>
+          </div>
+        </div>
+
+        <!-- Additional Deposit Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+          <!-- Average Deposit -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-medium text-gray-500">Average Deposit</h4>
+              <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="text-2xl font-bold text-gray-900">{{ formatAmount(depositStatistics.averageDepositAmount) }}</div>
+            <p class="text-xs text-gray-500 mt-1">Per transaction</p>
+          </div>
+
+          <!-- Largest Deposit -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-medium text-gray-500">Largest Deposit</h4>
+              <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="text-2xl font-bold text-gray-900">{{ formatAmount(depositStatistics.largestDeposit) }}</div>
+            <p class="text-xs text-gray-500 mt-1">Maximum amount</p>
+          </div>
+
+          <!-- Smallest Deposit -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-medium text-gray-500">Smallest Deposit</h4>
+              <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="text-2xl font-bold text-gray-900">{{ formatAmount(depositStatistics.smallestDeposit) }}</div>
+            <p class="text-xs text-gray-500 mt-1">Minimum amount</p>
+          </div>
+
+          <!-- Last Deposit -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-medium text-gray-500">Last Deposit</h4>
+              <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="text-lg font-bold text-gray-900">{{ formatDate(depositStatistics.lastDepositDate) }}</div>
+            <p class="text-xs text-gray-500 mt-1">Most recent</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deposit Statistics Loading State -->
+      <div *ngIf="isLoadingDepositStats" class="mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Deposit Statistics</h3>
+        <div class="flex justify-center items-center py-12">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+          <span class="ml-3 text-gray-600">Loading deposit statistics...</span>
+        </div>
+      </div>
+
+      <!-- Deposit Statistics Error State -->
+      <div *ngIf="depositStatsError" class="mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Deposit Statistics</h3>
+        <div class="bg-red-50 border border-red-200 rounded-md p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800">Error Loading Deposit Statistics</h3>
+              <div class="mt-2 text-sm text-red-700">
+                <p>{{ depositStatsError }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div *ngIf="!isLoadingClients && !clientsError" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <button routerLink="/agent/clients" class="flex items-center justify-center p-6 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <svg class="w-6 h-6 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 515.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 919.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+          <span class="text-sm font-medium text-gray-700">Manage Clients</span>
+        </button>
+
+        <button routerLink="/agent/transactions" class="flex items-center justify-center p-6 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <svg class="w-6 h-6 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+          </svg>
+          <span class="text-sm font-medium text-gray-700">Manage Transactions</span>
+        </button>
+      </div>
+    </main>
+  </div>
+</div>

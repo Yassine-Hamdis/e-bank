@@ -1,0 +1,134 @@
+/* Client Management Specific Styles */
+.client-row {
+  transition: all 0.2s ease;
+}
+
+.client-row:hover {
+  background-color: #f9fafb;
+}
+
+.action-button {
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  transform: scale(1.05);
+}
+
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Modal styles */
+.modal-overlay {
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form styles */
+.form-input {
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+/* Status badge styles */
+.status-active {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-inactive {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Account badge styles */
+.account-badge {
+  background-color: #f3f4f6;
+  color: #374151;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  margin-bottom: 0.25rem;
+  display: inline-block;
+}
+
+/* Loading animation */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .table-responsive table {
+    min-width: 600px;
+  }
+}
+
+/* Green theme for agent interface */
+.btn-agent-primary {
+  background-color: #059669;
+  border-color: #059669;
+}
+
+.btn-agent-primary:hover {
+  background-color: #047857;
+  border-color: #047857;
+}
+
+.text-agent-primary {
+  color: #059669;
+}
+
+.border-agent-primary {
+  border-color: #059669;
+}
+
+.focus\:ring-agent-primary:focus {
+  --tw-ring-color: rgba(5, 150, 105, 0.5);
+}
+
+/* Error and success states */
+.error-state {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.success-state {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
+}
